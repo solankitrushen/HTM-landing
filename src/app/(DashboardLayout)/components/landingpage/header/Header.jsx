@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -14,17 +14,20 @@ import MobileSidebar from './MobileSidebar';
 import { IconMenu2 } from '@tabler/icons-react';
 
 const LpHeader = () => {
-  const AppBarStyled = styled(AppBar)(({ theme }) => ({
+  const heroRef = useRef(null);
+
+  const AppBarStyled = styled(AppBar)(({ theme, transparent }) => ({
     justifyContent: 'center',
     [theme.breakpoints.up('lg')]: {
-      minHeight: '80px',
+      minHeight: '40px',
     },
-    background: 'rgba(255, 255, 255, 0.15)',
-    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+    background: transparent ? 'rgba(255, 255, 255, 0.15)' : theme.palette.background.paper,
+    boxShadow: transparent ? 'none' : '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
     backdropFilter: 'blur(5.5px)',
     WebkitBackdropFilter: 'blur(5.5px)',
     borderRadius: '10px',
     border: '1px solid rgba(255, 255, 255, 0.18)',
+    transition: 'box-shadow 0.3s ease, background 0.3s ease',
   }));
 
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
@@ -34,7 +37,35 @@ const LpHeader = () => {
     color: theme.palette.text.secondary,
   }));
 
-  //   sidebar
+  const NavLink = styled('a')(({ theme }) => ({
+    color: 'black',
+    textDecoration: 'none',
+    margin: '0 25px',
+    padding: '0 15px',
+    '&:hover': {
+      color: '#199b08',
+    },
+  }));
+
+  // Detect scroll position to remove shadow on hero section
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroHeight = heroRef.current.offsetHeight;
+        if (window.scrollY >= heroHeight) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call on mount to set initial state
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
@@ -49,7 +80,7 @@ const LpHeader = () => {
   };
 
   return (
-    <AppBarStyled position="sticky" elevation={8}>
+    <AppBarStyled position="sticky" transparent={!isScrolled} elevation={isScrolled ? 8 : 0}>
       <Container maxWidth="lg">
         <ToolbarStyled>
           <Logo />
@@ -61,7 +92,13 @@ const LpHeader = () => {
           ) : null}
           {lgUp ? (
             <Stack spacing={1} direction="row" alignItems="center">
-              <Navigations />
+              {/* Remove Market and Weather sections */}
+              <NavLink href="#home">Home</NavLink>
+              <NavLink href="#about">About</NavLink>
+              <NavLink href="#services">Services</NavLink>
+              <NavLink href="#contact">Contact</NavLink>
+              <NavLink href="#contact">Login</NavLink>
+              <NavLink href="#contact">Sign Up</NavLink>
             </Stack>
           ) : null}
         </ToolbarStyled>
