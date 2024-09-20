@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <img
                   src="/images/logos/light-logo.svg"
-                  alt="FarmerSevaSetu Logo"
+                  alt="KrushiMitra Logo"
                   className="h-10 w-10"
                   style={{ height: '80px', width: '180px' }}
                 />
@@ -67,13 +67,13 @@ export default function Footer() {
                 <h3 className="mb-4 font-semibold text-gray-900">Contact Us</h3>
                 <ul className="space-y-2">
                   <li>
-                    <a href="mailto:info@FarmerSevaSetu.com" className="hover-underline">
-                      info@farmersevasetu.com
+                    <a href="mailto:sihhackathon1@gmail.com" className="hover-underline">
+                      info@KrushiMitra.com
                     </a>
                   </li>
                   <li>
                     <a href="tel:+24810567624" className="hover-underline">
-                      +24 810 567 5624
+                      +91 1234567890
                     </a>
                   </li>
                 </ul>
@@ -81,7 +81,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="mt-12 text-center text-sm text-gray-500">
-            © 2024 FarmerSevaSetu. All Rights Reserved.
+            © 2024 KrushiMitra. All Rights Reserved.
           </div>
         </div>
       </footer>
